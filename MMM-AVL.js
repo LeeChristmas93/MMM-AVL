@@ -93,7 +93,15 @@ Module.register("MMM-AVL", {
       icon.className = "mmm-avl-icon fa " + this.getIconClass(event.type);
       icon.setAttribute("aria-hidden", "true");
       item.appendChild(icon);
+
+      const spacer = document.createElement("span");
+      spacer.className = "mmm-avl-spacer";
+      spacer.textContent = "\u00a0\u00a0";
+      item.appendChild(spacer);
     }
+
+    const text = document.createElement("span");
+    text.className = "mmm-avl-text";
 
     const date = document.createElement("span");
     date.className = "mmm-avl-date";
@@ -103,8 +111,9 @@ Module.register("MMM-AVL", {
     type.className = "mmm-avl-type";
     type.textContent = event.type || "Sonstiges";
 
-    item.appendChild(date);
-    item.appendChild(type);
+    text.appendChild(date);
+    text.appendChild(type);
+    item.appendChild(text);
 
     return item;
   },

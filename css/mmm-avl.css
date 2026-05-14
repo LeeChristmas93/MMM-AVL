@@ -12,34 +12,37 @@
 
 .mmm-avl-item {
   align-items: baseline;
-  display: grid;
-  gap: 0;
-  grid-template-columns: 20px 72px minmax(78px, auto);
-  justify-content: start;
-  justify-items: start;
+  display: flex;
+  justify-content: flex-start;
   padding: 4px 0;
   text-align: left;
-}
-
-.mmm-avl-item--no-symbol {
-  grid-template-columns: 72px minmax(78px, auto);
+  white-space: nowrap;
 }
 
 .mmm-avl-icon {
   color: var(--color-text-dimmed, #999);
+  display: inline-block;
+  flex: 0 0 auto;
   font-size: 0.95em;
-  margin-right: 2ch;
   text-align: center;
+}
+
+.mmm-avl-spacer {
+  display: inline-block;
+  flex: 0 0 auto;
+  white-space: pre;
+}
+
+.mmm-avl-text {
+  display: inline-block;
+  flex: 0 0 auto;
+  text-align: left;
 }
 
 .mmm-avl-date,
 .mmm-avl-type {
   color: var(--color-text-dimmed, #999);
   white-space: nowrap;
-}
-
-.mmm-avl-date {
-  margin-left: 2ch;
 }
 
 .mmm-avl-type {
