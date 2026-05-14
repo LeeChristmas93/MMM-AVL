@@ -1,7 +1,7 @@
 /* Node helper for MMM-AVL
- * - Fetches .ics from configured URL
- * - Parses events with node-ical
- * - Schedules periodic updates
+ * - fetches .ics from configured URL
+ * - parses events with node-ical
+ * - schedules periodic updates
  */
 
 const NodeHelper = require("node_helper");
@@ -25,7 +25,7 @@ module.exports = NodeHelper.create({
 
   _setupAndFetch: function () {
     if (!this.config || !this.config.url) {
-      this.sendSocketNotification("AVL_ERROR", { message: "No URL configured" });
+      this.sendSocketNotification("AVL_ERROR", { message: "Keine URL konfiguriert" });
       return;
     }
 
@@ -53,9 +53,29 @@ module.exports = NodeHelper.create({
           if (!start) continue;
           const diffDays = (start - now) / (1000 * 60 * 60 * 24);
           if (diffDays >= -1 && diffDays <= maxDays) {
+            // normalize summary to string
+            let summaryText = "";
+            if (typeof e.summary === "string") {
+              summaryText = e.summary;
+            } else if (e.summary && typeof e.summary === "object") {
+              if (e.summary.val) summaryText = e.summary.val;
+              else if (e.summary.toString) summaryText = e.summary.toString();
+            }
+
+            // detect waste type by keywords (German)
+            const s = summaryText.toLowerCase();
+            let wasteType = null;
+            if (s.includes("rest") || s.includes("restm")) wasteType = "Restmüll";
+            else if (s.includes("bio") || s.includes("biom")) wasteType = "Biomüll";
+            else if (s.includes("papier") || s.includes("papi")) wasteType = "Papier";
+            else if (s.includes("glas")) wasteType = "Glas";
+            else if (s.includes("plast") || s.includes("gelb") || s.includes("verpack")) wasteType = "Plastik";
+            else wasteType = "Sonstiges";
+
             events.push({
-              summary: e.summary || "",
+              summary: summaryText || "",
               date: start.toLocaleDateString(),
+              type: wasteType,
               raw: e
             });
           }

@@ -35,12 +35,12 @@ Module.register("MMM-AVL", {
     wrapper.className = "mmm-avl";
 
     if (!this.loaded) {
-      wrapper.innerHTML = "Loading collection dates...";
+      wrapper.innerHTML = "Lade Abfuhrtermine...";
       return wrapper;
     }
 
     if (!this.events || this.events.length === 0) {
-      wrapper.innerHTML = "No collection dates found.";
+      wrapper.innerHTML = "Keine Abfuhrtermine gefunden.";
       return wrapper;
     }
 
@@ -57,11 +57,27 @@ Module.register("MMM-AVL", {
       date.className = "mmm-avl-date";
       date.textContent = ev.date;
 
+      var icon = document.createElement("span");
+      icon.className = "mmm-avl-icon fa fa-trash";
+      // choose icon based on type
+      var type = ev.type || "Sonstiges";
+      if (type === "Biomüll") icon.className = "mmm-avl-icon fa fa-leaf";
+      else if (type === "Papier") icon.className = "mmm-avl-icon fa fa-newspaper-o";
+      else if (type === "Glas") icon.className = "mmm-avl-icon fa fa-wine-glass";
+      else if (type === "Plastik") icon.className = "mmm-avl-icon fa fa-recycle";
+      else icon.className = "mmm-avl-icon fa fa-trash";
+
       var title = document.createElement("span");
       title.className = "mmm-avl-title";
       title.textContent = ev.summary;
 
+      var typeSpan = document.createElement("span");
+      typeSpan.className = "mmm-avl-type";
+      typeSpan.textContent = type;
+
+      li.appendChild(icon);
       li.appendChild(date);
+      li.appendChild(typeSpan);
       li.appendChild(title);
       list.appendChild(li);
     }
