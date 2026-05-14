@@ -1,0 +1,16 @@
+{
+  "name": "MMM-AVL",
+  "version": "0.1.0",
+  "description": "AVL Abfallkalender für MagicMirror – lädt .ics-Feeds und zeigt nächste Abfuhrtermine an.",
+  "author": "",
+  "license": "MIT",
+  "homepage": "",
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "keywords": ["magicmirror", "calendar", "avl", "abfall", "garbage"],
+  "engines": {
+    "node": ">=12.0.0"
+  }
+}
