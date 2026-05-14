@@ -1,10 +1,11 @@
+const dependencies = ["axios", "node-ical"];
+
 try {
-  require('node-ical');
-  console.log('node-ical OK');
-  require('axios');
-  console.log('axios OK');
-  process.exit(0);
-} catch (e) {
-  console.error('Smoke test failed:', e && e.message ? e.message : e);
+  dependencies.forEach((dependency) => {
+    require(dependency);
+    console.log(dependency + " OK");
+  });
+} catch (error) {
+  console.error("Smoke test failed:", error && error.message ? error.message : error);
   process.exit(2);
 }

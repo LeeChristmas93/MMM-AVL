@@ -1,86 +1,79 @@
 # MMM-AVL
 
-MagicMirror Modul zur Anzeige des AVL-Abfallkalenders via `.ics`-Feed.
+MagicMirror2 module for displaying upcoming AVL waste collection dates from an `.ics` calendar feed.
 
-# MMM-AVL
+## Short Description
 
-Kurzbeschreibung: AVL Abfallkalender für MagicMirror — lädt `.ics`-Feeds und zeigt die nächsten Abfuhrtermine an.
+Fetches the AVL waste calendar, normalizes common waste types and shows the next collection dates on your MagicMirror.
 
-MagicMirror Modul zur Anzeige des AVL-Abfallkalenders via `.ics`-Feed.
+## Features
+
+- Fetches iCalendar (`.ics`) feeds by URL.
+- Displays upcoming collection dates with type, date and summary.
+- Detects common German waste types: `Restmüll`, `Biomüll`, `Papier`, `Glas`, `Gelber Sack`.
+- Keeps the last valid calendar in memory and reuses it if a later fetch fails.
+- Supports configurable polling interval, maximum entries and lookahead window.
+
+## Dependencies and APIs
+
+- MagicMirror2.
+- Node.js dependencies installed with `npm install`.
+- A reachable AVL `.ics` calendar URL.
+- No API key is required.
 
 ## Installation
-1. Kopiere das Verzeichnis `modules/MMM-AVL` in dein MagicMirror `modules`-Verzeichnis.
-2. Installiere Abhängigkeiten im Modulordner:
 
 ```bash
-cd modules/MMM-AVL
+cd ~/MagicMirror/modules
+git clone https://github.com/LeeChristmas93/MMM-AVL.git
+cd MMM-AVL
 npm install
 ```
 
-3. Füge ein Konfigurationsfragment in deiner `config.js` hinzu (Beispiel):
+## Configuration
 
 ```js
 {
   module: "MMM-AVL",
   position: "top_left",
+  header: "Abfallkalender",
   config: {
     url: "https://example.com/avl.ics",
-    updateInterval: 1000 * 60 * 60 * 12,
+    updateInterval: 12 * 60 * 60 * 1000,
     maximumEntries: 6,
-    maximumNumberOfDays: 365
-  }
-# MMM-AVL
-
-Short description: AVL Waste Calendar for MagicMirror — fetches `.ics` feeds and displays upcoming collection dates.
-
-MagicMirror module to display AVL waste collection dates via an `.ics` feed.
-
-## Installation
-1. Copy the `modules/MMM-AVL` directory into your MagicMirror `modules` folder.
-2. Install dependencies inside the module folder:
-
-```bash
-cd modules/MMM-AVL
-npm install
-```
-
-3. Add a configuration fragment to your `config.js` (example):
-
-```js
-{
-  module: "MMM-AVL",
-  position: "top_left",
-  config: {
-    url: "https://example.com/avl.ics",
-    updateInterval: 1000 * 60 * 60 * 12,
-    maximumEntries: 6,
-    maximumNumberOfDays: 365
+    maximumNumberOfDays: 365,
+    fetchOnStart: true,
+    showSymbols: true
   }
 }
 ```
 
-## Module files
-- `MMM-AVL.js` — frontend (DOM rendering)
-- `node_helper.js` — background: fetch, parser, scheduler
-- `module.json` — module metadata
-- `package.json` — node dependencies
+## Configuration Options
 
-## Notes
-- If your provider only offers a one-time download (no subscription), set up an external script to periodically update the `.ics` file.
+| Option | Default | Description |
+| --- | --- | --- |
+| `url` | required | Public or local URL to the AVL `.ics` calendar feed. |
+| `updateInterval` | `12 * 60 * 60 * 1000` | Calendar polling interval in milliseconds. |
+| `maximumEntries` | `6` | Maximum number of collection dates shown. |
+| `maximumNumberOfDays` | `365` | Lookahead window for future collection dates. |
+| `fetchOnStart` | `true` | Fetch the calendar immediately when the module starts. |
+| `showSymbols` | `true` | Show Font Awesome symbols for detected waste types. |
 
-## License
-This module is provided under the MIT License. Copy, modify and use freely. See LICENSE file for details.
+## Module Files
 
-## Release
-This repository follows semantic versioning. Releases are tagged in Git (e.g. `v0.1.1`). To create a release locally you can use the GitHub CLI:
+- `MMM-AVL.js` - frontend rendering and MagicMirror lifecycle.
+- `node_helper.js` - background fetch, parser and scheduler.
+- `css/mmm-avl.css` - module styling.
+- `config.sample.js` - copyable MagicMirror configuration example.
+
+## Development
 
 ```bash
-gh release create v0.1.1 -t "v0.1.1" -n "Initial English release" --target main
+npm test
 ```
 
-Or create a release from the Releases page on GitHub.
+The test script runs JavaScript syntax checks and verifies that runtime dependencies can be loaded.
 
-## Changelog
-- v0.1.1: Translated module and documentation to English.
-- v0.1.0: Initial scaffold and implementation.
+## License
 
+MIT

@@ -1,89 +1,129 @@
-Module.register("MMM-AVL", {
+/* MagicMirror2 Module: MMM-AVL
+ * Displays upcoming AVL waste collection dates from an iCalendar feed.
+ */
 
+Module.register("MMM-AVL", {
   defaults: {
     url: "",
-    updateInterval: 1000 * 60 * 60 * 12, // 12 hours
+    updateInterval: 12 * 60 * 60 * 1000,
     maximumEntries: 6,
     maximumNumberOfDays: 365,
     fetchOnStart: true,
     showSymbols: true
   },
 
-  start: function () {
+  start() {
+    Log.info(this.name + " started.");
+
     this.events = [];
     this.loaded = false;
+    this.error = null;
+
     this.sendSocketNotification("AVL_CONFIG", this.config);
+
     if (this.config.fetchOnStart) {
-      this.sendSocketNotification("AVLFETCH", this.config);
+      this.sendSocketNotification("AVL_FETCH");
     }
   },
 
-  socketNotificationReceived: function (notification, payload) {
+  socketNotificationReceived(notification, payload) {
     if (notification === "AVL_EVENTS") {
-      this.events = payload.events || [];
+      this.events = Array.isArray(payload.events) ? payload.events : [];
       this.loaded = true;
+      this.error = null;
       this.updateDom();
-    } else if (notification === "AVL_ERROR") {
+      return;
+    }
+
+    if (notification === "AVL_ERROR") {
       this.loaded = true;
+      this.error = payload && payload.message ? payload.message : "Unbekannter Fehler";
+      Log.error(this.name + ": " + this.error);
       this.updateDom();
-      console.error(this.name + ": AVL_ERROR", payload);
     }
   },
 
-  getDom: function () {
-    var wrapper = document.createElement("div");
-    wrapper.className = "mmm-avl";
+  getStyles() {
+    return ["css/mmm-avl.css"];
+  },
+
+  getDom() {
+    const wrapper = document.createElement("div");
+    wrapper.className = "small bright mmm-avl";
 
     if (!this.loaded) {
-      wrapper.innerHTML = "Lade Abfuhrtermine...";
+      wrapper.appendChild(this.createMessage("Lade Abfuhrtermine..."));
       return wrapper;
     }
 
-    if (!this.events || this.events.length === 0) {
-      wrapper.innerHTML = "Keine Abfuhrtermine gefunden.";
+    if (this.error && this.events.length === 0) {
+      wrapper.appendChild(this.createMessage("Abfuhrtermine nicht verfuegbar."));
       return wrapper;
     }
 
-    var list = document.createElement("ul");
+    if (this.events.length === 0) {
+      wrapper.appendChild(this.createMessage("Keine Abfuhrtermine gefunden."));
+      return wrapper;
+    }
+
+    const list = document.createElement("ul");
     list.className = "mmm-avl-list";
 
-    var max = this.config.maximumEntries || this.events.length;
-    for (var i = 0; i < Math.min(max, this.events.length); i++) {
-      var ev = this.events[i];
-      var li = document.createElement("li");
-      li.className = "mmm-avl-item";
-
-      var date = document.createElement("span");
-      date.className = "mmm-avl-date";
-      date.textContent = ev.date;
-
-      var icon = document.createElement("span");
-      icon.className = "mmm-avl-icon fa fa-trash";
-      // choose icon based on type
-      var type = ev.type || "Sonstiges";
-      if (type === "Biomüll") icon.className = "mmm-avl-icon fa fa-leaf";
-      else if (type === "Papier") icon.className = "mmm-avl-icon fa fa-newspaper-o";
-      else if (type === "Glas") icon.className = "mmm-avl-icon fa fa-wine-glass";
-      else if (type === "Plastik") icon.className = "mmm-avl-icon fa fa-recycle";
-      else icon.className = "mmm-avl-icon fa fa-trash";
-
-      var title = document.createElement("span");
-      title.className = "mmm-avl-title";
-      title.textContent = ev.summary;
-
-      var typeSpan = document.createElement("span");
-      typeSpan.className = "mmm-avl-type";
-      typeSpan.textContent = type;
-
-      li.appendChild(icon);
-      li.appendChild(date);
-      li.appendChild(typeSpan);
-      li.appendChild(title);
-      list.appendChild(li);
-    }
+    this.events.slice(0, this.config.maximumEntries).forEach((event) => {
+      list.appendChild(this.createEventItem(event));
+    });
 
     wrapper.appendChild(list);
     return wrapper;
-  }
+  },
 
+  createMessage(text) {
+    const message = document.createElement("div");
+    message.className = "dimmed mmm-avl-message";
+    message.textContent = text;
+    return message;
+  },
+
+  createEventItem(event) {
+    const item = document.createElement("li");
+    item.className = this.config.showSymbols ? "mmm-avl-item" : "mmm-avl-item mmm-avl-item--no-symbol";
+
+    if (this.config.showSymbols) {
+      const icon = document.createElement("span");
+      icon.className = "mmm-avl-icon fa " + this.getIconClass(event.type);
+      icon.setAttribute("aria-hidden", "true");
+      item.appendChild(icon);
+    }
+
+    const date = document.createElement("span");
+    date.className = "mmm-avl-date";
+    date.textContent = event.date || "";
+
+    const type = document.createElement("span");
+    type.className = "mmm-avl-type";
+    type.textContent = event.type || "Sonstiges";
+
+    const title = document.createElement("span");
+    title.className = "mmm-avl-title";
+    title.textContent = event.summary || type.textContent;
+
+    item.appendChild(date);
+    item.appendChild(type);
+    item.appendChild(title);
+
+    return item;
+  },
+
+  getIconClass(type) {
+    const icons = {
+      "Restmüll": "fa-trash",
+      "Biomüll": "fa-leaf",
+      "Papier": "fa-newspaper-o",
+      "Glas": "fa-glass",
+      "Gelber Sack": "fa-recycle",
+      "Sonstiges": "fa-calendar"
+    };
+
+    return icons[type] || icons.Sonstiges;
+  }
 });

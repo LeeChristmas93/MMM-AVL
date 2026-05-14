@@ -1,10 +1,30 @@
 {
-  "name": "MMM-AVL",
+  "name": "mmm-avl",
   "version": "0.1.0",
-  "description": "AVL Abfallkalender module for MagicMirror",
+  "description": "MagicMirror2 module for AVL waste collection dates from an iCalendar feed.",
   "main": "MMM-AVL.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/LeeChristmas93/MMM-AVL.git"
+  },
+  "keywords": [
+    "MagicMirror",
+    "MagicMirror2",
+    "MMM",
+    "AVL",
+    "waste",
+    "calendar",
+    "iCalendar",
+    "abfall"
+  ],
+  "author": "LeeChristmas93",
+  "license": "MIT",
   "dependencies": {
     "axios": "^1.4.0",
     "node-ical": "^0.26.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "node --check MMM-AVL.js && node --check node_helper.js && node scripts/smoke-test.js"
   }
 }

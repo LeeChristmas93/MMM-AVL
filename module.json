@@ -1,15 +1,23 @@
 {
   "name": "MMM-AVL",
   "version": "0.1.0",
-  "description": "AVL waste calendar for MagicMirror — fetches .ics feeds and displays upcoming collection dates.",
-  "author": "",
+  "description": "AVL waste calendar for MagicMirror2 from an iCalendar feed.",
+  "author": "LeeChristmas93",
   "license": "MIT",
-  "homepage": "",
+  "homepage": "https://github.com/LeeChristmas93/MMM-AVL",
   "repository": {
     "type": "git",
-    "url": ""
+    "url": "https://github.com/LeeChristmas93/MMM-AVL.git"
   },
-  "keywords": ["magicmirror", "calendar", "avl", "abfall", "garbage"],
+  "keywords": [
+    "magicmirror",
+    "magicmirror2",
+    "calendar",
+    "icalendar",
+    "avl",
+    "abfall",
+    "waste"
+  ],
   "engines": {
     "node": ">=12.0.0"
   }
