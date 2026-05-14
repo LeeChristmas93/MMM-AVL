@@ -1,7 +1,7 @@
 /* Node helper for MMM-AVL
- * - fetches .ics from configured URL
- * - parses events with node-ical
- * - schedules periodic updates
+ * - Fetches .ics from configured URL
+ * - Parses events with node-ical
+ * - Schedules periodic updates
  */
 
 const NodeHelper = require("node_helper");
@@ -25,7 +25,7 @@ module.exports = NodeHelper.create({
 
   _setupAndFetch: function () {
     if (!this.config || !this.config.url) {
-      this.sendSocketNotification("AVL_ERROR", { message: "Keine URL konfiguriert" });
+      this.sendSocketNotification("AVL_ERROR", { message: "No URL configured" });
       return;
     }
 

@@ -35,12 +35,12 @@ Module.register("MMM-AVL", {
     wrapper.className = "mmm-avl";
 
     if (!this.loaded) {
-      wrapper.innerHTML = "Lade Abfuhrtermine...";
+      wrapper.innerHTML = "Loading collection dates...";
       return wrapper;
     }
 
     if (!this.events || this.events.length === 0) {
-      wrapper.innerHTML = "Keine Abfuhrtermine gefunden.";
+      wrapper.innerHTML = "No collection dates found.";
       return wrapper;
     }
 

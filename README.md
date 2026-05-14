@@ -29,27 +29,41 @@ npm install
     maximumEntries: 6,
     maximumNumberOfDays: 365
   }
+# MMM-AVL
+
+Short description: AVL Waste Calendar for MagicMirror — fetches `.ics` feeds and displays upcoming collection dates.
+
+MagicMirror module to display AVL waste collection dates via an `.ics` feed.
+
+## Installation
+1. Copy the `modules/MMM-AVL` directory into your MagicMirror `modules` folder.
+2. Install dependencies inside the module folder:
+
+```bash
+cd modules/MMM-AVL
+npm install
+```
+
+3. Add a configuration fragment to your `config.js` (example):
+
+```js
+{
+  module: "MMM-AVL",
+  position: "top_left",
+  config: {
+    url: "https://example.com/avl.ics",
+    updateInterval: 1000 * 60 * 60 * 12,
+    maximumEntries: 6,
+    maximumNumberOfDays: 365
+  }
 }
 ```
 
-## Beschreibung
-- `node_helper.js` lädt das `.ics`-File per HTTP(S), parsed es mit `node-ical` und sendet Events an das Frontend.
-- beim Fehler wird die letzte gültige `.ics` (falls vorhanden) als Fallback genutzt.
+## Module files
+- `MMM-AVL.js` — frontend (DOM rendering)
+- `node_helper.js` — background: fetch, parser, scheduler
+- `module.json` — module metadata
+- `package.json` — node dependencies
 
-## Konfiguration
-- `url` (string, required): URL oder lokaler Pfad zur `.ics`-Datei
-- `updateInterval` (ms): Intervall für automatische Aktualisierung
-- `maximumEntries` (int): Anzahl der anzuzeigenden Einträge
-- `maximumNumberOfDays` (int): wie viele Tage in die Zukunft betrachtet werden
-
-## Moduldateien
-- `MMM-AVL.js` — Frontend (DOM-Rendering)
-- `node_helper.js` — Hintergrundprozess: Fetch, Parser, Scheduler
-- `module.json` — Modul-Metadaten
-- `package.json` — Node-Abhängigkeiten
-
-## Hinweise
-- Wenn dein Provider nur einen Download (kein Abo) anbietet: richte ein externes Skript ein, das die `.ics` periodisch aktualisiert.
-
-
-- Wenn dein Provider nur einen Download (kein Abo) anbietet, richte ein externes Skript ein, das die `.ics` periodisch aktualisiert.
+## Notes
+- If your provider only offers a one-time download (no subscription), set up an external script to periodically update the `.ics` file.
