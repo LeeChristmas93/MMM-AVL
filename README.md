@@ -67,3 +67,20 @@ npm install
 
 ## Notes
 - If your provider only offers a one-time download (no subscription), set up an external script to periodically update the `.ics` file.
+
+## License
+This module is provided under the MIT License. Copy, modify and use freely. See LICENSE file for details.
+
+## Release
+This repository follows semantic versioning. Releases are tagged in Git (e.g. `v0.1.1`). To create a release locally you can use the GitHub CLI:
+
+```bash
+gh release create v0.1.1 -t "v0.1.1" -n "Initial English release" --target main
+```
+
+Or create a release from the Releases page on GitHub.
+
+## Changelog
+- v0.1.1: Translated module and documentation to English.
+- v0.1.0: Initial scaffold and implementation.
+
