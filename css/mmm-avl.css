@@ -8,19 +8,23 @@
 }
 .mmm-avl-item {
   display: flex;
+  align-items: center;
   justify-content: flex-start;
-  gap: 8px;
-  padding: 4px 0;
-  border-bottom: 1px solid rgba(255,255,255,0.03);
+  gap: 12px;
+  padding: 6px 0;
+  border-bottom: none;
 }
 .mmm-avl-icon {
   width: 24px;
+  min-width: 24px;
   text-align: center;
+  font-size: 1.2em;
 }
 .mmm-avl-type {
   color: var(--secondary-color);
   font-weight: 600;
-  margin-right: 8px;
+  white-space: nowrap;
+  min-width: 80px;
 }
 .mmm-avl-date {
   min-width: 90px;

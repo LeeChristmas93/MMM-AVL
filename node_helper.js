@@ -53,13 +53,19 @@ module.exports = NodeHelper.create({
           if (!start) continue;
           const diffDays = (start - now) / (1000 * 60 * 60 * 24);
           if (diffDays >= -1 && diffDays <= maxDays) {
-            // normalize summary to string
+            // normalize summary to string (extract first value only)
             let summaryText = "";
             if (typeof e.summary === "string") {
-              summaryText = e.summary;
+              summaryText = e.summary.trim();
             } else if (e.summary && typeof e.summary === "object") {
-              if (e.summary.val) summaryText = e.summary.val;
-              else if (e.summary.toString) summaryText = e.summary.toString();
+              // handle ical.js parsed format: summary.val or summary (for Array)
+              if (e.summary.val) {
+                summaryText = (Array.isArray(e.summary.val) ? e.summary.val[0] : e.summary.val).toString().trim();
+              } else if (Array.isArray(e.summary)) {
+                summaryText = (e.summary[0] || "").toString().trim();
+              } else if (e.summary.toString) {
+                summaryText = e.summary.toString().trim();
+              }
             }
 
             // detect waste type by keywords (German)
