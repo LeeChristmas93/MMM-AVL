@@ -138,11 +138,11 @@ module.exports = NodeHelper.create({
   detectWasteType(summary) {
     const text = summary.toLowerCase();
 
-    if (text.includes("rest") || text.includes("restm")) {
+    if (text.includes("rest")) {
       return "Restmüll";
     }
 
-    if (text.includes("bio") || text.includes("biom")) {
+    if (text.includes("bio")) {
       return "Biomüll";
     }
 

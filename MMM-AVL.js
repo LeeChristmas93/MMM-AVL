@@ -66,7 +66,7 @@ Module.register("MMM-AVL", {
       return wrapper;
     }
 
-    const list = document.createElement("ul");
+    const list = document.createElement("div");
     list.className = "mmm-avl-list";
 
     this.events.slice(0, this.config.maximumEntries).forEach((event) => {
@@ -85,7 +85,7 @@ Module.register("MMM-AVL", {
   },
 
   createEventItem(event) {
-    const item = document.createElement("li");
+    const item = document.createElement("div");
     item.className = this.config.showSymbols ? "mmm-avl-item" : "mmm-avl-item mmm-avl-item--no-symbol";
 
     if (this.config.showSymbols) {
@@ -103,13 +103,8 @@ Module.register("MMM-AVL", {
     type.className = "mmm-avl-type";
     type.textContent = event.type || "Sonstiges";
 
-    const title = document.createElement("span");
-    title.className = "mmm-avl-title";
-    title.textContent = event.summary || type.textContent;
-
     item.appendChild(date);
     item.appendChild(type);
-    item.appendChild(title);
 
     return item;
   },

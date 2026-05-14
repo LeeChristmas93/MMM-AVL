@@ -12,12 +12,12 @@
   align-items: baseline;
   display: grid;
   gap: 0 10px;
-  grid-template-columns: 20px 72px minmax(78px, auto) 1fr;
+  grid-template-columns: 20px 72px minmax(78px, auto);
   padding: 4px 0;
 }
 
 .mmm-avl-item--no-symbol {
-  grid-template-columns: 72px minmax(78px, auto) 1fr;
+  grid-template-columns: 72px minmax(78px, auto);
 }
 
 .mmm-avl-icon {
@@ -34,12 +34,6 @@
 
 .mmm-avl-type {
   font-weight: 600;
-}
-
-.mmm-avl-title {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
 }
 
 .mmm-avl-message {
