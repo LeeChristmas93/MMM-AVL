@@ -1,19 +1,24 @@
 .mmm-avl {
   min-width: 260px;
+  text-align: left;
 }
 
 .mmm-avl-list {
   list-style: none;
   margin: 0;
   padding: 0;
+  text-align: left;
 }
 
 .mmm-avl-item {
   align-items: baseline;
   display: grid;
-  gap: 0 10px;
+  gap: 0;
   grid-template-columns: 20px 72px minmax(78px, auto);
+  justify-content: start;
+  justify-items: start;
   padding: 4px 0;
+  text-align: left;
 }
 
 .mmm-avl-item--no-symbol {
@@ -23,6 +28,7 @@
 .mmm-avl-icon {
   color: var(--color-text-dimmed, #999);
   font-size: 0.95em;
+  margin-right: 2ch;
   text-align: center;
 }
 
@@ -32,8 +38,13 @@
   white-space: nowrap;
 }
 
+.mmm-avl-date {
+  margin-left: 2ch;
+}
+
 .mmm-avl-type {
   font-weight: 600;
+  margin-left: 0.5ch;
 }
 
 .mmm-avl-message {
